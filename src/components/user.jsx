@@ -50,7 +50,7 @@ User.propTypes = {
     bookmark: PropTypes.bool.isRequired,
     onDelete: PropTypes.func.isRequired,
     onToggleBookMark: PropTypes.func.isRequired,
-    qualities: PropTypes.array.isRequired,
+    qualities: PropTypes.array,
     profession: PropTypes.object.isRequired
 };
 
