@@ -9,9 +9,10 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                 order: selectedSort.order === "asc" ? "desc" : "asc"
             });
         } else {
-            onSort({ path: item, order: "asc" });
+            onSort({ path: item, order: "desc" });
         }
     };
+
     const renderSortArrow = (selectedSort, currentPath) => {
         if (selectedSort.path === currentPath) {
             if (selectedSort.order === "asc") {
@@ -38,7 +39,8 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                         scope="col"
                     >
                         {columns[column].name}{" "}
-                        {renderSortArrow(selectedSort, columns[column].path)}
+                        {columns[column].path &&
+                            renderSortArrow(selectedSort, columns[column].path)}
                     </th>
                 ))}
             </tr>
