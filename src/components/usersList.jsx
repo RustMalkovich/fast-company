@@ -94,6 +94,7 @@ const UsersList = () => {
                 )}
                 <div className="d-flex flex-column">
                     <SearchStatus length={count} />
+                    <div>Search</div>
                     {count > 0 && (
                         <UserTable
                             users={userCrop}
