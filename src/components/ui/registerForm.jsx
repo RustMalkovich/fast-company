@@ -113,8 +113,8 @@ const RegisterForm = () => {
         return qualitiesArray;
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = (event) => {
+        event.preventDefault();
         const isValid = validate();
         if (!isValid) return;
         const { profession, qualities } = data;
@@ -147,9 +147,9 @@ const RegisterForm = () => {
                 options={professions}
                 defaultOption="Выбрать..."
                 name="profession"
-                error={errors.profession}
                 value={data.profession}
                 onChange={handleChange}
+                error={errors.profession}
             />
             <RadioField
                 options={[

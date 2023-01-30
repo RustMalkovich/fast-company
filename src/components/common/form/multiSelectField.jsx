@@ -2,7 +2,7 @@ import React from "react";
 import Select from "react-select";
 import PropTypes from "prop-types";
 
-const MultiSelectField = ({ options, onChange, name, label, defaultValue }) => {
+const MultiSelectField = ({ options, onChange, name, label, defaultOptions }) => {
     const optionsArray =
         !Array.isArray(options) && typeof options === "object"
             ? Object.values(options)
@@ -20,7 +20,7 @@ const MultiSelectField = ({ options, onChange, name, label, defaultValue }) => {
                 options={optionsArray}
                 closeMenuOnSelect={false}
                 name={name}
-                defaultValue={defaultValue}
+                defaultValue={defaultOptions}
                 className="basic-multi-select"
                 classNamePrefix="select"
                 onChange={handleChange}
@@ -32,7 +32,7 @@ MultiSelectField.propTypes = {
     onChange: PropTypes.func,
     name: PropTypes.string,
     label: PropTypes.string,
-    defaultValue: PropTypes.array,
+    defaultOptions: PropTypes.array,
     options: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 };
 export default MultiSelectField;
