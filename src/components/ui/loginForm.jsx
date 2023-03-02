@@ -14,33 +14,35 @@ const LoginForm = () => {
         stayOn: false
     });
     const [errors, setErrors] = useState({});
+    const [enterError, setEnterError] = useState(null);
 
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
         }));
+        setEnterError(null);
     };
 
     const validatorConfig = {
         email: {
             isRequired: {
                 message: "Электронная почта обязательна для заполнения"
-            },
-            isEmail: { message: "Email введен некорректно" }
+            }
+            // isEmail: { message: "Email введен некорректно" }
         },
         password: {
-            isRequired: { message: "Пароль обязателен для заполнения" },
-            isCapitalSymbol: {
-                message: "Пароль должен содержать хотя бы одну заглавную букву"
-            },
-            isContainDigit: {
-                message: "Пароль должен содержать хотя бы одно число"
-            },
-            min: {
-                message: "Пароль должен соотоять минимум из 8 символов",
-                value: 8
-            }
+            isRequired: { message: "Пароль обязателен для заполнения" }
+            // isCapitalSymbol: {
+            //     message: "Пароль должен содержать хотя бы одну заглавную букву"
+            // },
+            // isContainDigit: {
+            //     message: "Пароль должен содержать хотя бы одно число"
+            // },
+            // min: {
+            //     message: "Пароль должен соотоять минимум из 8 символов",
+            //     value: 8
+            // }
         }
     };
 
@@ -60,13 +62,12 @@ const LoginForm = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        console.log(data);
 
         try {
             await signIn(data);
             history.push("/");
         } catch (error) {
-            setErrors(error);
+            setEnterError(error.message);
         }
     };
 
@@ -94,9 +95,10 @@ const LoginForm = () => {
             >
                 Оставаться в системе
             </CheckBoxField>
+            {enterError && <p className="text-danger">{enterError}</p>}
             <button
                 type="submit"
-                disabled={!isValid}
+                disabled={!isValid || enterError}
                 className="btn btn-primary w-100 mx-auto"
             >
                 Submit
