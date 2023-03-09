@@ -6,13 +6,13 @@ import { useAuth } from "../../hooks/useAuth";
 import { useHistory } from "react-router-dom";
 
 const LoginForm = () => {
-    const history = useHistory();
-    const { signIn } = useAuth();
     const [data, setData] = useState({
         email: "",
         password: "",
         stayOn: false
     });
+    const history = useHistory();
+    const { signIn } = useAuth();
     const [errors, setErrors] = useState({});
     const [enterError, setEnterError] = useState(null);
 
@@ -65,7 +65,11 @@ const LoginForm = () => {
 
         try {
             await signIn(data);
-            history.push("/");
+            history.push(
+                history.location.state
+                    ? history.location.state.from.pathname
+                    : "/"
+            );
         } catch (error) {
             setEnterError(error.message);
         }

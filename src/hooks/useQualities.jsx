@@ -11,7 +11,7 @@ export const useQualities = () => {
 
 export const QualitiesProvider = ({ children }) => {
     const [qualities, setQualities] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -22,7 +22,7 @@ export const QualitiesProvider = ({ children }) => {
         try {
             const { content } = await qualityService.fetchAll();
             setQualities(content);
-            setIsLoading(false);
+            setLoading(false);
         } catch (error) {
             errorCatcher(error);
         }
