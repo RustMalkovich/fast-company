@@ -1,10 +1,10 @@
-import httpServise from "./http.service";
+import httpService from "./http.service";
 
 const professionEndpoint = "profession/";
 
 const professionService = {
     get: async () => {
-        const { data } = await httpServise.get(professionEndpoint);
+        const { data } = await httpService.get(professionEndpoint);
         return data;
     }
 };
