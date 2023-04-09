@@ -18,7 +18,7 @@ const qualitiesSlice = createSlice({
             state.lastFetch = Date.now();
             state.isLoading = false;
         },
-        qualitiesReqestFailed(state, action) {
+        qualitiesRequestFailed(state, action) {
             state.error = action.payload;
             state.isLoading = false;
         }
@@ -26,10 +26,10 @@ const qualitiesSlice = createSlice({
 });
 
 const { actions, reducer: qualitiesReduser } = qualitiesSlice;
-const { qualitiesRequested, qualitiesReceived, qualitiesReqestFailed } =
+const { qualitiesRequested, qualitiesReceived, qualitiesRequestFailed } =
     actions;
 
-function isOutdated(date) {
+export function isOutdated(date) {
     if (Date.now() - date > 10 * 60 * 1000) {
         return true;
     }
@@ -39,14 +39,12 @@ function isOutdated(date) {
 export const loadQualitiesList = () => async (dispatch, getState) => {
     const { lastFetch } = getState().qualities;
     if (isOutdated(lastFetch)) {
-        console.log(lastFetch);
         dispatch(qualitiesRequested());
         try {
             const { content } = await qualityService.fetchAll();
-            // console.log(content);
             dispatch(qualitiesReceived(content));
         } catch (error) {
-            dispatch(qualitiesReqestFailed(error.message));
+            dispatch(qualitiesRequestFailed(error.message));
         }
     }
 };

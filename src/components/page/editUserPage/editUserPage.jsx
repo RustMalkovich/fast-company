@@ -8,22 +8,31 @@ import MultiSelectField from "../../common/form/multiSelectField";
 import BackHistoryButton from "../../common/backButton";
 import { useAuth } from "../../../hooks/useAuth";
 // import { useQualities } from "../../../hooks/useQualities";
-import { useProfessions } from "../../../hooks/useProfessions";
+// import { useProfessions } from "../../../hooks/useProfessions";
 import { useSelector } from "react-redux";
 import {
     getQualities,
     getQualitiesLoadingStatus
 } from "../../../store/qualities";
+import {
+    getProfessions,
+    getProfessionsLoadingStatus
+} from "../../../store/professions";
+import { getCurrentUserData } from "../../../store/users";
 
 const EditUserPage = () => {
     const history = useHistory();
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState();
-    const { currentUser, updateUserData } = useAuth();
+    const { updateUserData } = useAuth();
+    // const { currentUser, updateUserData } = useAuth();
+    const currentUser = useSelector(getCurrentUserData());
     // const { qualities, isLoading: qualitiesLoading } = useQualities();
     const qualities = useSelector(getQualities());
     const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
-    const { professions, isLoading: professionLoading } = useProfessions();
+    // const { professions, isLoading: professionLoading } = useProfessions();
+    const professions = useSelector(getProfessions());
+    const professionLoading = useSelector(getProfessionsLoadingStatus());
     const [errors, setErrors] = useState({});
 
     const qualitiesList = qualities.map((q) => ({
@@ -40,10 +49,6 @@ const EditUserPage = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        // console.log({
-        //     ...data,
-        //     qualities: data.qualities.map((q) => q.value)
-        // });
         await updateUserData({
             ...data,
             qualities: data.qualities.map((q) => q.value)
