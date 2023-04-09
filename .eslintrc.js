@@ -22,6 +22,7 @@ module.exports = {
             "error",
             "double",
             { allowTemplateLiterals: true, avoidEscape: true }
-        ]
+        ],
+        "no-unused-vars": "off"
     }
 };

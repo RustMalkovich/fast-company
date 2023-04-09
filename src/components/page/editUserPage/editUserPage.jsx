@@ -18,12 +18,15 @@ import {
     getProfessions,
     getProfessionsLoadingStatus
 } from "../../../store/professions";
+import { getCurrentUserData } from "../../../store/users";
 
 const EditUserPage = () => {
     const history = useHistory();
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState();
-    const { currentUser, updateUserData } = useAuth();
+    const { updateUserData } = useAuth();
+    // const { currentUser, updateUserData } = useAuth();
+    const currentUser = useSelector(getCurrentUserData());
     // const { qualities, isLoading: qualitiesLoading } = useQualities();
     const qualities = useSelector(getQualities());
     const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
@@ -46,10 +49,6 @@ const EditUserPage = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        // console.log({
-        //     ...data,
-        //     qualities: data.qualities.map((q) => q.value)
-        // });
         await updateUserData({
             ...data,
             qualities: data.qualities.map((q) => q.value)

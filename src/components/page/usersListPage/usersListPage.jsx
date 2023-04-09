@@ -3,36 +3,28 @@ import Pagination from "../../common/pagination";
 import { paginate } from "../../../utils/paginate";
 import PropTypes from "prop-types";
 import GroupList from "../../common/groupList";
-// import api from "../../../api";
 import SearchStatus from "../../ui/searchStatus";
 import UserTable from "../../ui/usersTable";
 import _ from "lodash";
-import { useUser } from "../../../hooks/useUsers";
-// import { useProfessions } from "../../../hooks/useProfessions";
-import { useAuth } from "../../../hooks/useAuth";
+// import { useAuth } from "../../../hooks/useAuth";
 import { useSelector } from "react-redux";
 import {
     getProfessions,
     getProfessionsLoadingStatus
 } from "../../../store/professions";
+import { getCurrentUserId, getUsersList } from "../../../store/users";
 
 const UsersListPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
-    // const [professions, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
     const [searchQuery, setSearchQuery] = useState("");
-    // const [users, setUsers] = useState();
-    const { users } = useUser();
-    // const { isLoading: professionsLoading, professions } = useProfessions();
+    const users = useSelector(getUsersList());
     const professions = useSelector(getProfessions());
     const professionsLoading = useSelector(getProfessionsLoadingStatus());
-    const { currentUser } = useAuth();
+    // const { currentUser } = useAuth();
+    const currentUserId = useSelector(getCurrentUserId());
     const pageSize = 4;
-
-    // useEffect(() => {
-    //     api.users.fetchAll().then((data) => setUsers(data));
-    // }, []);
 
     const handleDelete = (userId) => {
         // setUsers(users.filter((user) => user._id !== userId));
@@ -51,10 +43,6 @@ const UsersListPage = () => {
         );
         // );
     };
-
-    // useEffect(() => {
-    //     api.professions.fetchAll().then((data) => setProfession(data));
-    // }, []);
 
     useEffect(() => {
         setCurrentPage(1);
@@ -94,20 +82,16 @@ const UsersListPage = () => {
                           JSON.stringify(selectedProf)
                   )
                 : data;
-            return filteredUsers.filter((u) => u._id !== currentUser._id);
+            return filteredUsers.filter((u) => u._id !== currentUserId);
         }
         const filteredUsers = filterUsers(users);
-
         const count = filteredUsers.length;
-
         const sortedUsers = _.orderBy(
             filteredUsers,
             [sortBy.path],
             [sortBy.order]
         );
-
         const userCrop = paginate(sortedUsers, currentPage, pageSize);
-
         const clearFilter = () => {
             setSelectedProf();
         };
